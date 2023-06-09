@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Hexo</title>
+  <title>我的技术与生活——Git | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——Git`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"","path":"2023/06/09/Git配置/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"六、Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"}]`)
+  const posts = JSON.parse(`[{"title":"六、Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title"></h1>
+    <h1 class="article-title">Git</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -393,7 +393,8 @@ pre:active {
       </div>
     </div>
     <article class="article-content">
-      <p><strong>1.Git简介</strong></p>
+      <hr>
+<p><strong>1.Git简介</strong></p>
 <p>  Git是一种版本管理工具，是分布式版本控制系统，能够记录历史版本，回退历史版本，便于团队开发，方便代码合并。比较简单，容易操作。但是所有代码必须放在中央服务器，服务器一旦宕机无法提交代码，即容错性较差；当离线时也无法提交代码，无法及时记录我们的提交行为。</p>
 <p><strong>2.Git安装</strong></p>
 <p>  （1）把老师给我们的核心程序、可视化窗口客户端以及中文语言包下载下来</p>
