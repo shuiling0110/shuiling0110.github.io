@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"stand-alone,HA,Yarn","path":"2023/06/12/stand-alone和HA和Yarn/"}]`)
+  const posts = JSON.parse(`[{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"stand-alone,HA,Yarn","path":"2023/06/12/stand-alone和HA和Yarn/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -401,7 +401,7 @@ pre:active {
 <p>（3）安装完毕重启资源管理器或重启电脑</p>
 <p>（4）更改语言为中文</p>
 <p>（5）安装成功后，在桌面右键即可看到：</p>
-<p><img src="C:\Users\王雨晴\wyq.blog\source\images\图片1.png" alt="图片1"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%871.png" alt="图片1"></p>
 <p><strong>3.</strong> <strong>Git工作流程</strong></p>
 <p>  Git有两种类型的仓库：本地仓库和远程仓库。工作流程为：</p>
 <p>（1）从远程仓库中克隆（clone）或拉取（pull）代码到本地仓库</p>
@@ -411,117 +411,117 @@ pre:active {
 <p>（5）修改完成后，需要和团队成员共享代码时，将代码push到远程仓库</p>
 <p><strong>4.</strong> <strong>Git的基本使用-01TortoiseGit操作基本仓库</strong></p>
 <p>  **（1）初始化Git:**先初始化一个本地仓库。首先新建一个测试文件夹，然后进入文件夹，右键创建一个版本库。创建成功后，文件夹多了一个绿色图标，文件内部生成了一个.git隐藏文件夹。如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%872.png" alt="图片2"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%873.png" alt="图片3"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%874.png" alt="图片4"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%872.png" alt="图片2"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%873.png" alt="图片3"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%874.png" alt="图片4"></p>
 <p><strong>（2）添加文件：</strong>在仓库中新建一个文件，选中新建的文件–&gt;右键–&gt;TortoiseGit–&gt;添加，此时我们看到文件夹上多了一个“加号”，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%875.png" alt="图片5"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%876.png" alt="图片6"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%875.png" alt="图片5"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%876.png" alt="图片6"></p>
 <p><strong>（3）提交文件至本地仓库：</strong>首先选中文件，右键点击Git提交，日志信息必须填写，提交后图标变成绿色，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%877.png" alt="图片7"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%878.png" alt="图片8"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%877.png" alt="图片7"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%878.png" alt="图片8"></p>
 <p><strong>（4）修改文件与再次提交文件：</strong>修改文件后，文件上会有一个红色的感叹号，表示我们提交后文件被修改过，提交后文件图标会变成绿色，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%879.png" alt="图片9"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8710.png" alt="图片10"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8711.png" alt="图片11"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8712.png" alt="图片12"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%879.png" alt="图片9"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8710.png" alt="图片10"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8711.png" alt="图片11"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8712.png" alt="图片12"></p>
 <p><strong>（5）修改文件，不提交和上个版本比较差异（diff）：</strong>修改文件后不要提交，选中文件–&gt;右键–&gt;TotroiseGit–&gt;比较差异，左右可以看到差异，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8713.png" alt="图片13"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8714.png" alt="图片14"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8713.png" alt="图片13"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8714.png" alt="图片14"></p>
 <p><strong>（6）查看提交历史记录</strong>：选中文件后右键–&gt;TortoiseGit–&gt;显示日志，此时可以看到所有的历史提交记录：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8715.png" alt="图片15"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8716.png" alt="图片16"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8715.png" alt="图片15"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8716.png" alt="图片16"></p>
 <p><strong>（7）回退至历史版本：</strong>右键后–&gt;TortoiseGit–&gt;显示日志，选中某个版本后进行如下操作：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8717.png" alt="图片17"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8718.png" alt="图片18"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8719.png" alt="图片19"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8720.png" alt="图片20"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8717.png" alt="图片17"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8718.png" alt="图片18"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8719.png" alt="图片19"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8720.png" alt="图片20"></p>
 <p><strong>（8）本地删除与恢复</strong>：直接删除文件，只是删除了本地工作区的文件，并没有删除仓库中的文件，此时可以回退，例如，把文件夹中的文件删除，右键–&gt;TortoiseGit–&gt;还原，此时文件又被恢复了，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8721.png" alt="图片21"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8721.png" alt="图片21"></p>
 <p><strong>（9）从版本库删除：</strong>想要真的把某个文件从版本库删除，首先删除文件，和步骤八操作一样，然后提交，此时服务器文件已将删除了，但历史版本还在，还是可以恢复的，如图:</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8722.png" alt="图片22"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8722.png" alt="图片22"></p>
 <p><strong>（10）从版本库删除但是不删除本地：</strong>删除后需要提交，才会真正的从版本库删除。如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8723.png" alt="图片23"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8724.png" alt="图片24"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8723.png" alt="图片23"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8724.png" alt="图片24"></p>
 <p><strong>（11）忽略提交：</strong>有时一些文件是不需要提交的，比如idea&#x2F;eclipse开发的代码自动生成的配置文件。首先选中文件，右键点击添加到忽略列表，选择忽略当前文件，此时根目录下会生成一个.gitignore 文件，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8725.png" alt="图片25"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8726.png" alt="图片26"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8727.png" alt="图片27"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8725.png" alt="图片25"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8726.png" alt="图片26"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8727.png" alt="图片27"></p>
 <p><strong>5.</strong> <strong>Git的基本使用02-TortoiseGit操作本地仓库（分支）</strong></p>
 <p>  <strong>（1）创建分支：</strong>目前我们一直使用的是主分支（master),我们可以在主分支上创建分支，分支名称不建议使用中文，创建完毕后会切换到新的分支，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8728.png" alt="图片28"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8729.png" alt="图片29"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8730.png" alt="图片30"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8728.png" alt="图片28"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8729.png" alt="图片29"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8730.png" alt="图片30"></p>
 <p><strong>（2）查看分支：</strong>右键点击查看版本分布图，即可看到所创建的分支，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8731.png" alt="图片31"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8732.png" alt="图片32"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8731.png" alt="图片31"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8732.png" alt="图片32"></p>
 <p><strong>（3）切换分支：</strong>右键点击检出，如图所示，把分支切换到REQ1：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8733.png" alt="图片33"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8734.png" alt="图片34"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8735.png" alt="图片35"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8733.png" alt="图片33"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8734.png" alt="图片34"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8735.png" alt="图片35"></p>
 <p><strong>（4）合并分支：</strong>现在将代码切换到的是分支1，然后写关于需求1的代码并提交，开发完毕后把需求1的代码合并到主分支上，首先切换到主版本，右键合并即可将需求1的代码合并至主分支master，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8736.png" alt="图片36"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8737.png" alt="图片37"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8738.png" alt="图片38"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8736.png" alt="图片36"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8737.png" alt="图片37"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8738.png" alt="图片38"></p>
 <p><strong>（5）删除分支：</strong>右键点击版本分支图，把REQ3这条分支删掉，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8739.png" alt="图片39"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8740.png" alt="图片40"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8739.png" alt="图片39"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8740.png" alt="图片40"></p>
 <p><strong>（6）冲突问题：</strong>开发人员A 开发需求1,开发了一个工具类 MathUtil,里面第一行写了一个方法 add(int [] args)，同时开发人员B 开发需求2,开发了一个工具类 MathUtil,里面第一行写了一个方法 add(int a int b)，他们在互相不知道对方需求的情况下同时提交了代码到自己的分支，当把需求1 和需求2 同时都合并到主分支上，此时主分支是不能智能判断第一行使用谁的代码,合并时会报错,就会出现冲突。如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8741.png" alt="图片41"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8741.png" alt="图片41"></p>
 <p><strong>（7）处理冲突：</strong>选中冲突的文件（带黄色感叹号的文件都是冲突的文件,如果有多个需要逐一处理)，然后右键编辑冲突，处理完毕后，标记已解决，然后再提交，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8742.png" alt="图片42"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8742.png" alt="图片42"></p>
 <p><strong>（8）标签的创建（tag）：</strong>和分支的操作几乎一样，标签可以理解为项目里的一个标记，一旦打上了这个标记，则表示当前的代码不允许提交，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8743.png" alt="图片43"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8744.png" alt="图片44"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8743.png" alt="图片43"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8744.png" alt="图片44"></p>
 <p><strong>（9）标签的切换与删除：</strong>操作如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8745.png" alt="图片45"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8746.png" alt="图片46"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8747.png" alt="图片47"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8748.png" alt="图片48"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8749.png" alt="图片49"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8745.png" alt="图片45"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8746.png" alt="图片46"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8747.png" alt="图片47"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8748.png" alt="图片48"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8749.png" alt="图片49"></p>
 <p><strong>删除标签后:</strong></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8750.png" alt="图片50"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8750.png" alt="图片50"></p>
 <p><strong>6.</strong> <strong>远程仓库</strong></p>
 <p><strong>（1）搭建一个单层的局域网服务器共享代码：</strong>本地相对路径，多个文件夹共享代码，相对路径要写清楚，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8751.png" alt="图片51"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8752.png" alt="图片52"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8753.png" alt="图片53"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8754.png" alt="图片54"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8755.png" alt="图片55"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8751.png" alt="图片51"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8752.png" alt="图片52"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8753.png" alt="图片53"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8754.png" alt="图片54"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8755.png" alt="图片55"></p>
 <p><strong>（2）开启局域网共享代码：</strong>如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8756.png" alt="图片56"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8757.png" alt="图片57"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8756.png" alt="图片56"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8757.png" alt="图片57"></p>
 <p><strong>（3）常用远程仓库托管服务：</strong>除了自己搭建服务器我们可以使用免费的远程仓库，例如码云（gitee），在码云上进行账号注册，注册完登陆后可以看到个人主页，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8758.png" alt="图片58"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8759.png" alt="图片59"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8758.png" alt="图片58"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8759.png" alt="图片59"></p>
 <p><strong>（4）创建远程仓库：</strong>点击新建，给仓库取名为gittest1，是否开源选择私有，创建完成后就会出现仓库地址，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8760.png" alt="图片60"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8761.png" alt="图片61"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8760.png" alt="图片60"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8761.png" alt="图片61"></p>
 <p><strong>（5）把本地代码推送到远端:</strong> 我们把本地仓库gittest1上的内容推送至远程仓库gittest1上，推送时填写用户信息，会被保存到本地，下次提交无需填写用户名和密码。如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8762.png" alt="图片62"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8763.png" alt="图片63"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8764.png" alt="图片64"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8765.png" alt="图片65"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8766.png" alt="图片66"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8767.png" alt="图片67"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8768.png" alt="图片68"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8762.png" alt="图片62"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8763.png" alt="图片63"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8764.png" alt="图片64"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8765.png" alt="图片65"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8766.png" alt="图片66"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8767.png" alt="图片67"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8768.png" alt="图片68"></p>
 <p><strong>（6）克隆远程仓库到本地：</strong>新建一个文件夹gitee，进行如下操作，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8769.png" alt="图片69"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8770.png" alt="图片70"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8769.png" alt="图片69"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8770.png" alt="图片70"></p>
 <p><strong>（7）ssh密钥的生成：</strong>在git里输入ssh-keygen -t rsa，一直回车，就会在我们电脑C盘相应位置里生成一个id_rsa文件 和id_rsa.pub，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8771.png" alt="图片71"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8772.png" alt="图片72"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8771.png" alt="图片71"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8772.png" alt="图片72"></p>
 <p><strong>（8）ssh密钥配置：</strong>标题名称最好是自己电脑型号，把id_rsa.pub文件里的内容粘贴到公钥位置，完成密码验证后，添加密钥成功，如图所示：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8773.png" alt="图片73"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8774.png" alt="图片74"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8773.png" alt="图片73"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8774.png" alt="图片74"></p>
 <p><strong>（9）ssh方式克隆或提交代码：</strong>这里我们选择克隆之前的项目gittest，修改URL地址，直接提交推送即可成功，git会自动去.ssh 目录找我们的私钥进行匹配，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8775.png" alt="图片75"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8776.png" alt="图片76"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8775.png" alt="图片75"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8776.png" alt="图片76"></p>
 <p><strong>（10）远程仓库的其他操作：</strong>我们可以删除修改我们自己仓库的基本信息，也可以邀请其他人成为项目的开发人员或管理人员，如图：</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8777.png" alt="图片77"></p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8778.png" alt="图片78"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8777.png" alt="图片77"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8778.png" alt="图片78"></p>
 <p><strong>（11）利用gitee搭建个人主页：</strong>首先我们要将上传至远程仓库，选择服务pages即可部署，但是上传的文件里必须有一个index.xml文件，且我们只能搭建静态网站，注意gitee要求我们要绑定手机号。成功后gitee会自动生成一个域名，直接访问，此时已经在git上部署了一个静态网页（但需要进行一系列信息认证，认证成功后访问即可）。</p>
-<p><img src="/..%5Cimages%5C%E5%9B%BE%E7%89%8779.png" alt="图片79"></p>
+<p><img src="/../images/%E5%9B%BE%E7%89%8779.png" alt="图片79"></p>
 
     </article>
     
