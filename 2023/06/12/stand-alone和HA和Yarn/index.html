@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>我的技术与生活——stand-alone,HA,Yarn | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `我的技术与生活——stand-alone,HA,Yarn`
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="http://example.com/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="http://example.com/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="http://example.com/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="http://example.com/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"stand-alone,HA,Yarn","path":"2023/06/12/stand-alone和HA和Yarn/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Cola.</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">运动</span>
+          <span class="main-left--tag">宅</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“花有重开日，人无再少年”</p>
+        <p>“一个简单普通的女孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Aizener"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>0</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>0</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>1 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>5 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>482天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.2</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <style>
+pre::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color:#F5F5F5;
+}
+/*定义滚动条轨道
+内阴影+圆角*/
+pre::-webkit-scrollbar-track {
+  background-color:#F5F5F5;
+}
+/*定义滑块
+内阴影+圆角*/
+pre::-webkit-scrollbar-thumb {
+  background-color: rgb(69, 83, 100);
+}
+
+pre:active {
+  background-color: rgb(81, 95, 116);
+}
+</style>
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">stand-alone,HA,Yarn</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            
+          </div>
+          
+          <p class="article-info--date">日期：2023-06-12 13:17:38</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content">
+      <hr>
+<h1 id="Stand-Alone"><a href="#Stand-Alone" class="headerlink" title="Stand-Alone"></a>Stand-Alone</h1><p>StandAlone的原理：</p>
+<p> Master和Worker角色以独立进程的形式存在,并组成Spark运行时环境(集群)</p>
+<h3 id="1-在三台虚拟机上创建虚拟环境-pyspark"><a href="#1-在三台虚拟机上创建虚拟环境-pyspark" class="headerlink" title="1. 在三台虚拟机上创建虚拟环境 pyspark"></a>1. 在三台虚拟机上创建虚拟环境 pyspark</h3><p>conda activate base</p>
+<p>conda create -n pyspark python&#x3D;3.8</p>
+<h4 id="切换到虚拟环境内"><a href="#切换到虚拟环境内" class="headerlink" title="# 切换到虚拟环境内"></a># 切换到虚拟环境内</h4><p>conda activate pyspark</p>
+<h4 id="在虚拟环境内安装包"><a href="#在虚拟环境内安装包" class="headerlink" title="# 在虚拟环境内安装包"></a># 在虚拟环境内安装包</h4><p>pip install pyhive pyspark jieba -i <a target="_blank" rel="noopener" href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\1.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\2.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\3.png" alt="img"> </p>
+<h3 id="2-配置配置文件"><a href="#2-配置配置文件" class="headerlink" title="2.配置配置文件"></a>2.配置配置文件</h3><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\4.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\5.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\6.png" alt="img"> </p>
+<h4 id="配置vim-worker"><a href="#配置vim-worker" class="headerlink" title="配置vim worker"></a>配置vim worker</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\7.png" alt="img"> </p>
+<h4 id="配置spark-env-sh文件"><a href="#配置spark-env-sh文件" class="headerlink" title="配置spark-env.sh文件"></a>配置spark-env.sh文件</h4><p> <img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\8.png" alt="8"></p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\9.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\10.png" alt="img"> </p>
+<h4 id="编辑spark-env-sh"><a href="#编辑spark-env-sh" class="headerlink" title="编辑spark-env.sh"></a>编辑spark-env.sh</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\11.png" alt="img"> </p>
+<h4 id="在HDFS上创建程序运行历史记录存放的文件夹"><a href="#在HDFS上创建程序运行历史记录存放的文件夹" class="headerlink" title="在HDFS上创建程序运行历史记录存放的文件夹"></a>在HDFS上创建程序运行历史记录存放的文件夹</h4><p>hadoop fs -mkdir &#x2F;sparklog</p>
+<p>hadoop fs -chmod 777 &#x2F;sparklog</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\12.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\13.png" alt="img"> </p>
+<h4 id="配置spark-defaults-conf文件"><a href="#配置spark-defaults-conf文件" class="headerlink" title="配置spark-defaults.conf文件"></a>配置spark-defaults.conf文件</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\14.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\15.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\16.png" alt="img"> </p>
+<h4 id="配置vim-spark-defaults-conf"><a href="#配置vim-spark-defaults-conf" class="headerlink" title="配置vim spark-defaults.conf"></a>配置vim spark-defaults.conf</h4><p>修改内容, 追加如下内容</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\17.png" alt="img"> </p>
+<h4 id="配置log4j-properties-文件"><a href="#配置log4j-properties-文件" class="headerlink" title="配置log4j.properties 文件"></a>配置log4j.properties 文件</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\18.png" alt="img"> </p>
+<p>vim log4j.properties</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\19.png" alt="img"> </p>
+<h3 id="3-将Spark安装文件夹-分发到其它的服务器上"><a href="#3-将Spark安装文件夹-分发到其它的服务器上" class="headerlink" title="3.将Spark安装文件夹  分发到其它的服务器上"></a>3.将Spark安装文件夹  分发到其它的服务器上</h3><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\20.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\21.png" alt="img"> </p>
+<h4 id="在node2和node3上-给spark安装目录增加软链接"><a href="#在node2和node3上-给spark安装目录增加软链接" class="headerlink" title="在node2和node3上 给spark安装目录增加软链接"></a>在node2和node3上 给spark安装目录增加软链接</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\22.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\23.png" alt="img"> </p>
+<h4 id="检查每台机器的环境变量"><a href="#检查每台机器的环境变量" class="headerlink" title="检查每台机器的环境变量"></a>检查每台机器的环境变量</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\24.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\25.png" alt="img"> </p>
+<h3 id="4-启动历史服务器"><a href="#4-启动历史服务器" class="headerlink" title="4.启动历史服务器"></a>4.启动历史服务器</h3><p>sbin&#x2F;start-history-server.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\26.png" alt="img"> </p>
+<h4 id="启动全部master和worker"><a href="#启动全部master和worker" class="headerlink" title="# 启动全部master和worker"></a># 启动全部master和worker</h4><p>sbin&#x2F;start-all.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\27.png" alt="img"> </p>
+<h4 id="启动当前机器的master"><a href="#启动当前机器的master" class="headerlink" title="# 启动当前机器的master"></a># 启动当前机器的master</h4><p>sbin&#x2F;start-master.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\28.png" alt="img"> </p>
+<h4 id="启动当前机器的worker"><a href="#启动当前机器的worker" class="headerlink" title="# 启动当前机器的worker"></a># 启动当前机器的worker</h4><p>sbin&#x2F;start-worker.sh -h 192.168.88.xxx</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\29.png" alt="img"> </p>
+<h4 id="停止全部"><a href="#停止全部" class="headerlink" title="# 停止全部"></a># 停止全部</h4><p>sbin&#x2F;stop-all.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\30.png" alt="img"> </p>
+<h4 id="停止当前机器的master"><a href="#停止当前机器的master" class="headerlink" title="# 停止当前机器的master"></a># 停止当前机器的master</h4><p>sbin&#x2F;stop-master.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\31.png" alt="img"> </p>
+<h4 id="停止当前机器的worker"><a href="#停止当前机器的worker" class="headerlink" title="# 停止当前机器的worker"></a># 停止当前机器的worker</h4><p>sbin&#x2F;stop-worker.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\32.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\33.png" alt="img"> </p>
+<h3 id="5-连接到StandAlone集群"><a href="#5-连接到StandAlone集群" class="headerlink" title="5.连接到StandAlone集群"></a>5.连接到StandAlone集群</h3><p>执行：</p>
+<p>bin&#x2F;pyspark –master spark:&#x2F;&#x2F;node1:7077</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\34.png" alt="img"> </p>
+<p>bin&#x2F;spark-shell –master spark:&#x2F;&#x2F;node1:7077</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\35.png" alt="img"> </p>
+<h4 id="x2F-x2F-测试代码"><a href="#x2F-x2F-测试代码" class="headerlink" title="&#x2F;&#x2F; 测试代码"></a>&#x2F;&#x2F; 测试代码</h4><p>sc.parallelize(Array(1,2,3,4,5)).map(x&#x3D;&gt; x + 1).collect()</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\36.png" alt="img"> </p>
+<p>bin&#x2F;spark-submit (PI)</p>
+<p>bin&#x2F;spark-submit –master spark:&#x2F;&#x2F;node1:7077 &#x2F;export&#x2F;server&#x2F;spark&#x2F;examples&#x2F;src&#x2F;main&#x2F;python&#x2F;pi.py 100</p>
+<h4 id="同样使用–master来指定将任务提交到集群运行"><a href="#同样使用–master来指定将任务提交到集群运行" class="headerlink" title="# 同样使用–master来指定将任务提交到集群运行"></a># 同样使用–master来指定将任务提交到集群运行</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\37.png" alt="img"> </p>
+<h2 id="Spark-StandAlone-HA"><a href="#Spark-StandAlone-HA" class="headerlink" title="Spark StandAlone HA"></a>Spark StandAlone HA</h2><h3 id="1-Spark-StandAlone-HA-环境搭建"><a href="#1-Spark-StandAlone-HA-环境搭建" class="headerlink" title="1.Spark StandAlone HA 环境搭建"></a>1.Spark StandAlone HA 环境搭建</h3><h4 id="告知Spark的master运行在哪个机器上"><a href="#告知Spark的master运行在哪个机器上" class="headerlink" title="告知Spark的master运行在哪个机器上"></a>告知Spark的master运行在哪个机器上</h4><p>export SPARK_MASTER_HOST&#x3D;node1</p>
+<p>原因: 配置文件中固定master是谁, 那么就无法用到zk的动态切换master功能了.</p>
+<p>在spark-env.sh中, 增加:</p>
+<p>SPARK_DAEMON_JAVA_OPTS&#x3D;”-Dspark.deploy.recoveryMode&#x3D;ZOOKEEPER -Dspark.deploy.zookeeper.url&#x3D;node1:2181,node2:2181,node3:2181 -Dspark.deploy.zookeeper.dir&#x3D;&#x2F;spark-ha”</p>
+<p># spark.deploy.recoveryMode 指定HA模式 基于Zookeeper实现</p>
+<h3 id="2-指定Zookeeper的连接地址"><a href="#2-指定Zookeeper的连接地址" class="headerlink" title="2.指定Zookeeper的连接地址"></a>2.指定Zookeeper的连接地址</h3><h4 id="指定在Zookeeper中注册临时节点的路径"><a href="#指定在Zookeeper中注册临时节点的路径" class="headerlink" title="# 指定在Zookeeper中注册临时节点的路径"></a># 指定在Zookeeper中注册临时节点的路径</h4><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\38.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\39.png" alt="img"> </p>
+<h3 id="3-将spark-env-sh-分发到每一台服务器上"><a href="#3-将spark-env-sh-分发到每一台服务器上" class="headerlink" title="3.将spark-env.sh 分发到每一台服务器上"></a>3.将spark-env.sh 分发到每一台服务器上</h3><p>scp spark-env.sh node2:&#x2F;export&#x2F;server&#x2F;spark&#x2F;conf&#x2F;</p>
+<p>scp spark-env.sh node3:&#x2F;export&#x2F;server&#x2F;spark&#x2F;conf&#x2F;</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\40.png" alt="img"> </p>
+<h3 id="4-停止当前StandAlone集群"><a href="#4-停止当前StandAlone集群" class="headerlink" title="4.停止当前StandAlone集群"></a>4.停止当前StandAlone集群</h3><p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\41.png" alt="img"> </p>
+<h3 id="5-启动集群"><a href="#5-启动集群" class="headerlink" title="5.启动集群:"></a>5.启动集群:</h3><h4 id="在node1上-启动一个master-和全部worker"><a href="#在node1上-启动一个master-和全部worker" class="headerlink" title="# 在node1上 启动一个master 和全部worker"></a># 在node1上 启动一个master 和全部worker</h4><p>sbin&#x2F;start-all.sh</p>
+<h4 id="在node2上启动master"><a href="#在node2上启动master" class="headerlink" title="#在node2上启动master"></a>#在node2上启动master</h4><p>注意, 下面命令在node2上执行</p>
+<p>sbin&#x2F;start-master.sh</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\42.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\43.png" alt="img"> </p>
+<h3 id="6-查看状态："><a href="#6-查看状态：" class="headerlink" title="6.查看状态："></a>6.查看状态：</h3><p>node1master状态活跃：</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\44.png" alt="img"> </p>
+<h3 id="7-master主备切换"><a href="#7-master主备切换" class="headerlink" title="7.master主备切换"></a>7.master主备切换</h3><p>提交一个spark任务到当前alivemaster上:</p>
+<p>bin&#x2F;spark-submit –master spark:&#x2F;&#x2F;node1:7077 &#x2F;export&#x2F;server&#x2F;spark&#x2F;examples&#x2F;src&#x2F;main&#x2F;python&#x2F;pi.py 1000</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\45.png" alt="img"> </p>
+<p>当新的master接收集群后, 程序继续运行, 正常得到结果.</p>
+<h2 id="Spark-On-YARN"><a href="#Spark-On-YARN" class="headerlink" title="Spark On YARN"></a>Spark On YARN</h2><h3 id="1-Spark-On-YARN-环境搭建"><a href="#1-Spark-On-YARN-环境搭建" class="headerlink" title="1.Spark On YARN 环境搭建"></a>1.Spark On YARN 环境搭建</h3><h4 id="连接到YARN中"><a href="#连接到YARN中" class="headerlink" title="连接到YARN中"></a>连接到YARN中</h4><p>bin&#x2F;pyspark –master yarn –deploy-mode client|cluster</p>
+<p># –deploy-mode 选项是指定部署模式, 默认是 客户端模式</p>
+<p># client就是客户端模式</p>
+<p># cluster就是集群模式</p>
+<p># –deploy-mode 仅可以用在YARN模式下</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\46.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\47.png" alt="img"> </p>
+<h3 id="2-配置环境变量："><a href="#2-配置环境变量：" class="headerlink" title="2.配置环境变量："></a>2.配置环境变量：</h3><p>确保:</p>
+<p>HADOOP_CONF_DIR&#x3D;&#x2F;export&#x2F;server&#x2F;hadoop&#x2F;etc&#x2F;hadoop</p>
+<p>YARN_CONF_DIR&#x3D;&#x2F;export&#x2F;server&#x2F;hadoop&#x2F;etc&#x2F;hadoop</p>
+<p>在spark-env.sh 以及 环境变量配置文件中即可</p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\48.png" alt="img"> </p>
+<p><img src="D:\soft\nodejs\node_cache\hjh.blog\source\assets\49.png" alt="img"> </p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2023/06/12/stand-alone和HA和Yarn/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Stand-Alone"><span class="toc-number">1.</span> <span class="toc-text">Stand-Alone</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9C%A8%E4%B8%89%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83-pyspark"><span class="toc-number">1.0.1.</span> <span class="toc-text">1. 在三台虚拟机上创建虚拟环境 pyspark</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E5%88%B0%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%86%85"><span class="toc-number">1.0.1.1.</span> <span class="toc-text"># 切换到虚拟环境内</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%86%85%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">1.0.1.2.</span> <span class="toc-text"># 在虚拟环境内安装包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.</span> <span class="toc-text">2.配置配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEvim-worker"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">配置vim worker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEspark-env-sh%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">配置spark-env.sh文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91spark-env-sh"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">编辑spark-env.sh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8HDFS%E4%B8%8A%E5%88%9B%E5%BB%BA%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E5%AD%98%E6%94%BE%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">在HDFS上创建程序运行历史记录存放的文件夹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEspark-defaults-conf%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.5.</span> <span class="toc-text">配置spark-defaults.conf文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEvim-spark-defaults-conf"><span class="toc-number">1.0.2.6.</span> <span class="toc-text">配置vim spark-defaults.conf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AElog4j-properties-%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.7.</span> <span class="toc-text">配置log4j.properties 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B0%86Spark%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6%E5%A4%B9-%E5%88%86%E5%8F%91%E5%88%B0%E5%85%B6%E5%AE%83%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A"><span class="toc-number">1.0.3.</span> <span class="toc-text">3.将Spark安装文件夹  分发到其它的服务器上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8node2%E5%92%8Cnode3%E4%B8%8A-%E7%BB%99spark%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E5%A2%9E%E5%8A%A0%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">在node2和node3上 给spark安装目录增加软链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E6%AF%8F%E5%8F%B0%E6%9C%BA%E5%99%A8%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">检查每台机器的环境变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%AF%E5%8A%A8%E5%8E%86%E5%8F%B2%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.0.4.</span> <span class="toc-text">4.启动历史服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%85%A8%E9%83%A8master%E5%92%8Cworker"><span class="toc-number">1.0.4.1.</span> <span class="toc-text"># 启动全部master和worker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%BD%93%E5%89%8D%E6%9C%BA%E5%99%A8%E7%9A%84master"><span class="toc-number">1.0.4.2.</span> <span class="toc-text"># 启动当前机器的master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%BD%93%E5%89%8D%E6%9C%BA%E5%99%A8%E7%9A%84worker"><span class="toc-number">1.0.4.3.</span> <span class="toc-text"># 启动当前机器的worker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E5%85%A8%E9%83%A8"><span class="toc-number">1.0.4.4.</span> <span class="toc-text"># 停止全部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E5%BD%93%E5%89%8D%E6%9C%BA%E5%99%A8%E7%9A%84master"><span class="toc-number">1.0.4.5.</span> <span class="toc-text"># 停止当前机器的master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E5%BD%93%E5%89%8D%E6%9C%BA%E5%99%A8%E7%9A%84worker"><span class="toc-number">1.0.4.6.</span> <span class="toc-text"># 停止当前机器的worker</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BF%9E%E6%8E%A5%E5%88%B0StandAlone%E9%9B%86%E7%BE%A4"><span class="toc-number">1.0.5.</span> <span class="toc-text">5.连接到StandAlone集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x2F-x2F-%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">&#x2F;&#x2F; 测试代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%A0%B7%E4%BD%BF%E7%94%A8%E2%80%93master%E6%9D%A5%E6%8C%87%E5%AE%9A%E5%B0%86%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4%E5%88%B0%E9%9B%86%E7%BE%A4%E8%BF%90%E8%A1%8C"><span class="toc-number">1.0.5.2.</span> <span class="toc-text"># 同样使用–master来指定将任务提交到集群运行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spark-StandAlone-HA"><span class="toc-number">1.1.</span> <span class="toc-text">Spark StandAlone HA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Spark-StandAlone-HA-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.Spark StandAlone HA 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%8A%E7%9F%A5Spark%E7%9A%84master%E8%BF%90%E8%A1%8C%E5%9C%A8%E5%93%AA%E4%B8%AA%E6%9C%BA%E5%99%A8%E4%B8%8A"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">告知Spark的master运行在哪个机器上</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%87%E5%AE%9AZookeeper%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.指定Zookeeper的连接地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%9C%A8Zookeeper%E4%B8%AD%E6%B3%A8%E5%86%8C%E4%B8%B4%E6%97%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.2.1.</span> <span class="toc-text"># 指定在Zookeeper中注册临时节点的路径</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B0%86spark-env-sh-%E5%88%86%E5%8F%91%E5%88%B0%E6%AF%8F%E4%B8%80%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.将spark-env.sh 分发到每一台服务器上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%81%9C%E6%AD%A2%E5%BD%93%E5%89%8DStandAlone%E9%9B%86%E7%BE%A4"><span class="toc-number">1.1.4.</span> <span class="toc-text">4.停止当前StandAlone集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">1.1.5.</span> <span class="toc-text">5.启动集群:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8node1%E4%B8%8A-%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AAmaster-%E5%92%8C%E5%85%A8%E9%83%A8worker"><span class="toc-number">1.1.5.1.</span> <span class="toc-text"># 在node1上 启动一个master 和全部worker</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8node2%E4%B8%8A%E5%90%AF%E5%8A%A8master"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">#在node2上启动master</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9F%A5%E7%9C%8B%E7%8A%B6%E6%80%81%EF%BC%9A"><span class="toc-number">1.1.6.</span> <span class="toc-text">6.查看状态：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-master%E4%B8%BB%E5%A4%87%E5%88%87%E6%8D%A2"><span class="toc-number">1.1.7.</span> <span class="toc-text">7.master主备切换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spark-On-YARN"><span class="toc-number">1.2.</span> <span class="toc-text">Spark On YARN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Spark-On-YARN-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.Spark On YARN 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0YARN%E4%B8%AD"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">连接到YARN中</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%9A"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.配置环境变量：</span></a></li></ol></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2023/06/09/Git配置/">Git</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="http://cdn.yangxiang.cc/prism.js"></script>
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"Pf8zCXGEH1qsprnWfikVVujL-gzGzoHsz","appKey":"qOqoiUHhH1TGtLRUYURkLRQX","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2023/06/12/stand-alone和HA和Yarn/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大噶好。唔系可乐爱宅着，欢迎你们来到我的博客小站，希望能在这里收获到有用的东西哦！ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+    <div class="operate-item turn-comment hidden">
+      <i class="iconfont icon-pinglun"></i>
+      <span>查看评论</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        console.log(_commentDom)
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"安河桥","artist":"宋冬野","url":"http://ting6.yymp3.net:82/new25/songdongye/11.mp3","cover":"https://img2.baidu.com/it/u=1260056724,1076343118&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"},{"name":"卡布达","artist":"暂无","url":"music/kabuda.mp3","cover":"https://img2.baidu.com/it/u=705831265,2862720033&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      if (/^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(location.pathname.replace(rootPath, ''))) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+          window.loadImageFn();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+      // $('.main-container').fadeIn()
+    })
+  </script>
+</body>
+</html>
