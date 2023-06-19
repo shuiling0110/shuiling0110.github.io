@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>我的技术与生活——小站首页 | Hexo</title>
+  <title>我的技术与生活——kafka | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `我的技术与生活——小站首页`
+    document.title = `我的技术与生活——kafka`
   </script>
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"Docker","path":"2023/06/09/Docker/"},{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"","path":"2023/06/19/Kafka/"},{"title":"Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"stand-alone,HA,Yarn","path":"2023/06/14/stand-alone和HA和Yarn/"}]`)
+  const posts = JSON.parse(`[{"title":"Git","path":"2023/06/09/Git配置/"},{"title":"Docker","path":"2023/06/09/Docker/"},{"title":"kafka","path":"2023/06/19/Kafka/"},{"title":"Spark（Pyspark基础编码环境）","path":"2023/06/09/pyspark/"},{"title":"hive部署","path":"2023/06/09/hive/"},{"title":"Spark Local环境部署","path":"2023/06/09/spark-local/"},{"title":"stand-alone,HA,Yarn","path":"2023/06/14/stand-alone和HA和Yarn/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -371,7 +371,7 @@ pre:active {
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title"></h1>
+    <h1 class="article-title">kafka</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
@@ -393,8 +393,7 @@ pre:active {
       </div>
     </div>
     <article class="article-content">
-      <hr>
-<h2 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h2><h1 id="安装Kafka集群"><a href="#安装Kafka集群" class="headerlink" title="安装Kafka集群"></a>安装Kafka集群</h1><p>1.上传安装包至&#x2F;export&#x2F;server路径下，并解压：</p>
+      <h1 id="安装Kafka集群"><a href="#安装Kafka集群" class="headerlink" title="安装Kafka集群"></a>安装Kafka集群</h1><p>1.上传安装包至&#x2F;export&#x2F;server路径下，并解压：</p>
 <p>cd  &#x2F;export&#x2F;server&#x2F; </p>
 <p>tar -zxvf kafka_2.12-2.4.1.tgz</p>
 <p><img src="/../kafka/wps1.jpg" alt="img"></p>
@@ -403,13 +402,13 @@ pre:active {
 <p>cd &#x2F;export&#x2F;server&#x2F;kafka_2.12-2.4.1&#x2F;config</p>
 <p>(2)编辑配置文件</p>
 <p>vi server.properties</p>
-<p>#为依次增长的:0、1、2、3、4,集群中唯一 id –》从0开始，每台不能重复，第一块要改的</p>
+<p>为依次增长的:0、1、2、3、4,集群中唯一 id –》从0开始，每台不能重复，第一块要改的</p>
 <p>broker.id&#x3D;0 </p>
 <p>—-Logbasic——</p>
-<p>#数据存储的目录，第二块要改的</p>
+<p>数据存储的目录，第二块要改的</p>
 <p>log.dirs&#x3D;&#x2F;export&#x2F;data&#x2F;kafka-logs  </p>
 <p>—zookeeper—-</p>
-<p>#指定 zk 集群地址，第四块要改的</p>
+<p>指定 zk 集群地址，第四块要改的</p>
 <p>zookeeper.connect&#x3D;node1:2181,node2:2181,node3:2181</p>
 <p><img src="/../kafka/wps2.jpg" alt="img"></p>
 <p><img src="/../kafka/wps3.jpg" alt="img"></p>
@@ -423,9 +422,9 @@ pre:active {
 <p>vim &#x2F;export&#x2F;server&#x2F;kafka&#x2F;config&#x2F;server.propertie</p>
 <p>broker.id&#x3D;1 </p>
 <p>broker.id&#x3D;2</p>
-<p>#(broker.id 不能重复)</p>
+<p>(broker.id 不能重复)</p>
 <p>6.创建kafka一键启停脚本：</p>
-<p>#!&#x2F;bin&#x2F;bash</p>
+<p>!&#x2F;bin&#x2F;bash</p>
 <p>if [ $# -eq 0 ]</p>
 <p>then</p>
 <p>echo “please input param:start stop”</p>
@@ -454,8 +453,8 @@ pre:active {
 <p>–topic topic 名称</p>
 <p><img src="/../kafka/wps7.jpg" alt="img"></p>
 <p><strong>（2）删除topic：</strong>bin&#x2F;kafka-topics.sh  –delete –topic tpc_1 –zookeeper node1：2181</p>
-<p>#（异步线程去删除）删除 topic,需要一个参数处于启用状态: delete.topic.enable &#x3D; true,否则删不掉</p>
-<p>#使用 kafka-topics.sh 脚本删除主题的行为本质上只是在 ZooKeeper 中的 &#x2F;admin&#x2F;delete_topics 路径下 建一个与待删除主题同名的节点,以标记该主题为待删除的状态。与创建主题相同的是,真正删除主题的动作也是由 Kafka 的控制器负责完成的。</p>
+<p>（异步线程去删除）删除 topic,需要一个参数处于启用状态: delete.topic.enable &#x3D; true,否则删不掉</p>
+<p>使用 kafka-topics.sh 脚本删除主题的行为本质上只是在 ZooKeeper 中的 &#x2F;admin&#x2F;delete_topics 路径下 建一个与待删除主题同名的节点,以标记该主题为待删除的状态。与创建主题相同的是,真正删除主题的动作也是由 Kafka 的控制器负责完成的。</p>
 <p><strong>（3）查看topic：</strong></p>
 <p>列出当前系统中的所有 topic ：</p>
 <p>bin&#x2F;kafka-topics.sh –zookeeper node1:2181,node2:2181,node3:2181 -list</p>
@@ -592,7 +591,7 @@ pre:active {
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#kafka"><span class="toc-number">1.</span> <span class="toc-text">kafka</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Kafka%E9%9B%86%E7%BE%A4"><span class="toc-number"></span> <span class="toc-text">安装Kafka集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="toc-number"></span> <span class="toc-text">Kafka命令行操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka-Java-API%E5%BC%80%E5%8F%91"><span class="toc-number"></span> <span class="toc-text">Kafka Java API开发</span></a>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Kafka%E9%9B%86%E7%BE%A4"><span class="toc-number">1.</span> <span class="toc-text">安装Kafka集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">Kafka命令行操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kafka-Java-API%E5%BC%80%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">Kafka Java API开发</span></a></li></ol>
       </div>
       
         <div class="catelogue catelogue-2">
